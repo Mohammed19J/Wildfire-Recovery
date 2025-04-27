@@ -1,0 +1,22 @@
+@keyframes fall {
+  0% {
+    transform: translateY(-100px) translateX(0px) rotate(0deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(100vh) translateX(-20px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.leaf {
+  position: absolute;
+  top: -60px;
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}

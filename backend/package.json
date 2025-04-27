@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "setup": "python scripts/generate_prediction.py",
+    "get-tiles": "python scripts/get_monthly_tiles.py",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/earthengine": "^1.5.9",
+    "canvas": "^3.1.0",
+    "chart.js": "^4.4.8",
+    "chartjs-node-canvas": "^5.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  },
+  "description": ""
+}
