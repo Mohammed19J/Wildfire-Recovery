@@ -2,246 +2,246 @@
   {
     "index": 0,
     "date": "2019-01",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/fc56258212a5f48013e842d8aa1575e3-13b4682bc3b1bbbe550442b48036a40b/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/96a96bb6855bdb4959a7d1cb69c6fac2-505089df97e19dc241fbf264c17b76b7/tiles/{z}/{x}/{y}"
   },
   {
     "index": 1,
     "date": "2019-02",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/372585a01abdef63bf0c42442f090abf-004e7635e235db5ebc437f5608794a0a/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/867af44fa7915ee24e1b04fd3e1b4353-b4e3f6f1f8c60d50e359a6cd893911a4/tiles/{z}/{x}/{y}"
   },
   {
     "index": 2,
     "date": "2019-03",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/04bb2122b3cfb21682dd974de303c550-f9eba9a54b96e6c4447d2c30e2e76f4f/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/6efcaccaa32dc12d171b6255aa0d353d-ba407fb07baa6ed255e6f15c16ba4a81/tiles/{z}/{x}/{y}"
   },
   {
     "index": 3,
     "date": "2019-04",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/20e7c3b7b8fce63e5be0990f3c4264a0-f19b90780fb8f2ebe33f179fe65eef44/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/58e7af823bf0843a2935dba20103d443-541598148b57e29ccb6b9f485c08b44e/tiles/{z}/{x}/{y}"
   },
   {
     "index": 4,
     "date": "2019-05",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/949e8a64957883ed264ba5215f26fa77-b9d9dd45d4244c02c8202f657dfc198c/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/3b0990f8e8b1b88ff9250e1d30fbd6fb-41c78a15cedf8da2aeddc87ae779ad0a/tiles/{z}/{x}/{y}"
   },
   {
     "index": 5,
     "date": "2019-06",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/fff092b97809a0d2b3783aee452f976b-0913e5e6905cc1d982c46ee21d8a197e/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/944e2dab74d9a5dadf187ac19c76a57c-69d92e5f62a8eddfd4e30e9c2c87c2e9/tiles/{z}/{x}/{y}"
   },
   {
     "index": 6,
     "date": "2019-07",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/561087f9b525d5712cb36334e543fab2-cbb35f98e3af6ba2b3f6a5b5a5554fa1/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/6a90072dc00152b1c97f9eaa63445ff7-e4c87e8a90130b63b0ca1de193cc1012/tiles/{z}/{x}/{y}"
   },
   {
     "index": 7,
     "date": "2019-08",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/e45f0d77e09e9211338907523a8f4fc2-8569615b7f0e351a80a4535fc61643a1/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/7e3328865d045398191a867c96d1eb52-102da93c0fca431f72f3074356b64b3c/tiles/{z}/{x}/{y}"
   },
   {
     "index": 8,
     "date": "2019-09",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/f3468b566f232d73ac93d50a54921cdf-78eeff1385b777b78813294864e7a5d8/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/0640d46562c59df57c115ed923b9a1d0-db7d3259c252516a52d47c3384eb0cc2/tiles/{z}/{x}/{y}"
   },
   {
     "index": 9,
     "date": "2019-10",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/9799e6cd08953147305ba419161cf968-a783084072181b8805915bf19063d40b/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/cc15965738e835dcb07a6b94fa99169d-84cdf596eab31a298b9ddbf1f87d0adb/tiles/{z}/{x}/{y}"
   },
   {
     "index": 10,
     "date": "2019-11",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/613385c2f374d8cf0f1b5696702343a1-cfab180e09a74251d6dc2cfb54eaf3c3/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/225aa60299acb122864fd2f55d5e23c5-bcde722c18b398fd4c335fc18b0f3a43/tiles/{z}/{x}/{y}"
   },
   {
     "index": 11,
     "date": "2019-12",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/524e65e1039f6b0fb3b1d3238e60176c-671d3c09fa16853180fc6aea07e2665b/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/e74acd95dc0247f361b93fa3807597e6-36ed2e201df1a938fcb76997384bb6aa/tiles/{z}/{x}/{y}"
   },
   {
     "index": 12,
     "date": "2020-01",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/aae09eaf9d8ce48dfc5218f972d9c581-413be1fef6a3744df4450e43429cc249/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/dea668e1605a5664cb1eb398bfa2c1dc-cd6b0e24f77667b7e723400fce2c744d/tiles/{z}/{x}/{y}"
   },
   {
     "index": 13,
     "date": "2020-02",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/e7efd95dcdafe670142962d8143e5637-a43f69d443f6ca49c0e771f513a82fb5/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/de2722f90452916662d6ab4f0cd432c8-ad216189745a3e7a24f137eb9e490c5f/tiles/{z}/{x}/{y}"
   },
   {
     "index": 14,
     "date": "2020-03",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/06c9e17cd1c11b29dc57b53b8ecdf17f-d50f70613d515743b55eb1e8265a18cf/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/0ac5e37a0c1222c2d79653663e71f7c4-9eb0a8c82e43d7cb8fe67f4486d62fff/tiles/{z}/{x}/{y}"
   },
   {
     "index": 15,
     "date": "2020-04",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/5b5d86b64deb53454de6b22558fc6890-8c9f2b5d2d0f745d8542aff2b040ce15/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/93bbf9675907f51f2e6f1c09db3c5047-cfb5aae13427640deca3a68194999bd4/tiles/{z}/{x}/{y}"
   },
   {
     "index": 16,
     "date": "2020-05",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/9467b178d179f9c3e6678bc1d54d81a8-754a6cb3dc6b52b6b811bad501e71697/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/4a5ccae3ff04e6c9312a3cdad7173b6a-1afe027b5874112d98c3edf9a03335e1/tiles/{z}/{x}/{y}"
   },
   {
     "index": 17,
     "date": "2020-06",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/e9097701c302b42a6f6aba7aa58eb7ea-47ed9939b9bba48a5d9b52197fe54c5d/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/b1d7ae8afd688eab8263c16bd24049bb-d3fb9a1d319832e113c079f4269036c1/tiles/{z}/{x}/{y}"
   },
   {
     "index": 18,
     "date": "2020-07",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/efd7d925d3d63959e7dff0a908d0000a-7938f8063423d99ebf479a7b08fa5777/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/124c3c8f8dc50467d48e182f270350e7-1f1e3150bcb9bfa0a6640c8a7eceed7e/tiles/{z}/{x}/{y}"
   },
   {
     "index": 19,
     "date": "2020-08",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/0f75bd1b2311cca9c7fbd45887c28d9f-eb0bca822398c517c1ebf5efe8d31cbe/tiles/{z}/{x}/{y}",
-    "fireUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/16bcdff9d95df1398771881debfa089f-9e1625c325c2a3d94d6d7ae2e1bd0a58/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/2de252e4cb833ab909502f906f32cf37-9cfb274cef3f66b1903834705b17a518/tiles/{z}/{x}/{y}",
+    "fireUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/8ff611c4572ce487eabf403a2b0d305c-3a468de9e420db325983e734c5dcbca2/tiles/{z}/{x}/{y}"
   },
   {
     "index": 20,
     "date": "2020-09",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/5f43d775adf75cd2e18ed9cfa6d86a7e-e1c96685055c9b237e454962545b0c4d/tiles/{z}/{x}/{y}",
-    "fireUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/3f12d130b9cb95211827371987d758d5-7c3570d1ba630ee24ed3ea6fd59bd949/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/6a056829e757f7f7ca4af4c1111828cd-867f9045095bb109d2b56bad92ae2916/tiles/{z}/{x}/{y}",
+    "fireUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/2d8d6c6ff3361dd0b69f3cf289b74950-9a44e877031c6be5a027fd965f92a86d/tiles/{z}/{x}/{y}"
   },
   {
     "index": 21,
     "date": "2020-10",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/04900e41533cc84fb360e78c9c2303fc-73512aba4422e39e96e94d6276d6fbf0/tiles/{z}/{x}/{y}",
-    "fireUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/3c3d057304d4d25cb93c24af0bc54471-346a49ee386ea3a349bd76e09f0f30bb/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/ff57e17290433f371bfe0af552a1b9ae-e94a11af713da7dfb4c54e3e9ecb7391/tiles/{z}/{x}/{y}",
+    "fireUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/b48f9c6621d51fffbe2d7fab89d1e21b-202c83ef79b76624dd715b82f51ecc14/tiles/{z}/{x}/{y}"
   },
   {
     "index": 22,
     "date": "2020-11",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/31c2105ae63870af8caaf10de2299269-f03cfeb013fd7324e1fe6f4d549420a5/tiles/{z}/{x}/{y}",
-    "fireUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/1450a3da6ac5de28c516d3da7e38d800-0b5fae72214e61beeab531aa6b81e042/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/003c2d3ededd38759b096d57f4f5cffd-549a8e6ce725ae32bb55394263091b60/tiles/{z}/{x}/{y}",
+    "fireUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/f4da01d517dadc295c65668d567185c2-cf61460a843745dc1144883b98c6e27f/tiles/{z}/{x}/{y}"
   },
   {
     "index": 23,
     "date": "2020-12",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/2006c7d4588b919c9bdae023a92cc466-820277a3976e0d0c655f13ebd49e5e9f/tiles/{z}/{x}/{y}",
-    "fireUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/da60cf7de5c3ff80f2488aa97bf4ef9f-3919d7e5109af4c23d5a05bf0a147612/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/a852e6e335f87af98ef4774ae7cdcace-c13f39c70144f4a9d817c1f92995e099/tiles/{z}/{x}/{y}",
+    "fireUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/e204d2d3fb7866b4607351437a4fdb0d-ce45236944fd83358eba94d03c27822a/tiles/{z}/{x}/{y}"
   },
   {
     "index": 24,
     "date": "2021-01",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/af310f3324cc330af8f149fc2758acaf-bb663bcc587d693692a7977c7f6237d1/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/f45a6651ac5574c2025a430db4cfe376-c58695b46ec3c781f13e8995c3974238/tiles/{z}/{x}/{y}"
   },
   {
     "index": 25,
     "date": "2021-02",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/4e468a560d24809ac133d26c17226387-9a6022c3863e3b93dedab41a04fdd446/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/d0770f518faf479c67630e4c752449d5-62f8554506af624ce6bd6eddb3916ce0/tiles/{z}/{x}/{y}"
   },
   {
     "index": 26,
     "date": "2021-03",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/9352579602e5e7ab6a7e22ad9a4870c6-45bc5d669c57d20571dbca5d93c85f53/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/17da2e19d52876312c4cceae923e5033-4e895834ba00c8f0fbc611f4e20df590/tiles/{z}/{x}/{y}"
   },
   {
     "index": 27,
     "date": "2021-04",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/08721110877ff4b575d2db834dc6c6db-1306ae3c69ebe132ead48ba53b4023d0/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/baa509036d1d4ab0603d79f7a80f19a1-6940b46d53cce217c13bb3c3c3f23eab/tiles/{z}/{x}/{y}"
   },
   {
     "index": 28,
     "date": "2021-05",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/4157f6035ca0a7667ba0862372e27b2e-221a129bfba23e1243d04f1ae6183033/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/ae5db681d5c684434441845f59c3aaf4-4302b117d629ca07744442adb53a80de/tiles/{z}/{x}/{y}"
   },
   {
     "index": 29,
     "date": "2021-06",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/3605ea24f922397b128690daf60577df-ff49fa5edb2ab8f040640b9d40613513/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/72992f8d4026861d507e18f55863e636-399049c07b3b77942dabd2785183ac5d/tiles/{z}/{x}/{y}"
   },
   {
     "index": 30,
     "date": "2021-07",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/5cee813ff2a42ad49b53c2d69254b595-69f2b1d4c5acbd8840b08d8a910a3ed3/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/9d5a9c878089dc605c32a0ab644092b9-c9c5d195cfc466c180d0390a02f9b66b/tiles/{z}/{x}/{y}"
   },
   {
     "index": 31,
     "date": "2021-08",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/5fee2d00106d72e3317a9af85b269b1d-4393146f440dcfcbe269a5c3446a99a7/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/da284c0cde0c6a0a9bcf7abdeb03ff51-9770c39c03b26396c3a2686f69fb0992/tiles/{z}/{x}/{y}"
   },
   {
     "index": 32,
     "date": "2021-09",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/35cb589157799605a1c177f22c6eb562-7371a446589c37afc0b98d1b3f17af00/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/813e939dc215d2e5089e3c796d882c2c-6d33a48282f3777ea9376b46bf6428ad/tiles/{z}/{x}/{y}"
   },
   {
     "index": 33,
     "date": "2021-10",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/9ae5fdd33e38331666e549433b9d8968-f290e00562580388ff3bde21875e201b/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/00308c5600dd51b1e90c2470426d0649-d4987231ddb52dfee566526bb591845d/tiles/{z}/{x}/{y}"
   },
   {
     "index": 34,
     "date": "2021-11",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/abb73ae2b1d290460a13a89b7def478b-9cfada9f2b97d85650742ce2c60f7dbb/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/19ca9999d09ad2019c1330400e749dd7-bc5db799d27639bc0eb463a8f997f162/tiles/{z}/{x}/{y}"
   },
   {
     "index": 35,
     "date": "2021-12",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/925fbe591c4b3e2cc1b08d726d9801c9-0a3ad2b14279641291d1e1564eb0343d/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/208ef67bd3bb14df4a553681432039d1-d3f8b3f1f650865a68e231df402ab22f/tiles/{z}/{x}/{y}"
   },
   {
     "index": 36,
     "date": "2022-01",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/007020e279c4ab73dc769be99caccffc-fc4bcadc0d3a5d1813226988bc782a72/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/5bda4ac14742d5efb6a11315053f98e1-90f856aa52e05a20706f37e520037b36/tiles/{z}/{x}/{y}"
   },
   {
     "index": 37,
     "date": "2022-02",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/da07d6233db9ca05af6eccb7b205a13c-f30bbdbaf6edde73ce7cc0c2abd6b1cc/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/dc26e7158415696f307c45fdc27879c4-662992433037ee6816c8c3d741f4fa8c/tiles/{z}/{x}/{y}"
   },
   {
     "index": 38,
     "date": "2022-03",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/c97606ca36949586ba6ded34944dfa57-4dc726c7c9acea59d2ed9cece4766c87/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/4fc277f5e7f9314c16c8e92f1f3b848a-9e75d7748b9e7044a02098f31d73f6bc/tiles/{z}/{x}/{y}"
   },
   {
     "index": 39,
     "date": "2022-04",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/cbd744cb3fb6f208de5ddf463a42c00e-fefdacbbc1f95f8bb306a3a50069561d/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/1e7d47ad684f953800acdc0750469e01-5fdc48cba7de1c3acdfcf0400bc45665/tiles/{z}/{x}/{y}"
   },
   {
     "index": 40,
     "date": "2022-05",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/865f04d010caccc372fbca39bad0a35f-61e3f4d579af3aaee0709e01cd3f242f/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/bdc0b5cd2266663f0bb0ca457ed16f57-8a46064d562d68ea6ed4d4467c692996/tiles/{z}/{x}/{y}"
   },
   {
     "index": 41,
     "date": "2022-06",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/38cefc175673d8f5a7058789bc7e010b-10f6598aae6b611bfac6473f7a931f6e/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/1136f465121a6cd58cbaf20a6e9cf99d-cdd0406da071d01eac266577bbc34182/tiles/{z}/{x}/{y}"
   },
   {
     "index": 42,
     "date": "2022-07",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/9de5628d615f0f179653da5c73741bd5-4959136fa74f18f14a036bd9c844b3ba/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/eacc50c95a2fa2d2d7550ccf6a5914bb-51cb8809a5388a1832cdce25595832c9/tiles/{z}/{x}/{y}"
   },
   {
     "index": 43,
     "date": "2022-08",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/0e08d2712bb96143a7119656e8d8bd27-0c3baa400b69b96e1673ba6ed7511ed2/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/e4453b6c11f43c1ae973a682b4a40c54-19dbcac91574e45907171016e17b02a4/tiles/{z}/{x}/{y}"
   },
   {
     "index": 44,
     "date": "2022-09",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/3f474911d64773fd456c69c5dc767907-cd78790c36ccfbccc7f2ca49be2503ec/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/554a54dd545d5f948ba5d6678049f9fb-9c0fcfd9bcba8553ee684fbe03d7a27e/tiles/{z}/{x}/{y}"
   },
   {
     "index": 45,
     "date": "2022-10",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/22749cd60390a4a3d352ed98cd9f5f29-c1a2917c026f841631f75b844a02917c/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/2fd95b1cb89cfa8065efa351bdab8cb6-a7a216a5cb9705de02e9e04bd6ce2b58/tiles/{z}/{x}/{y}"
   },
   {
     "index": 46,
     "date": "2022-11",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/b21c2fae12892e98b24790eccaf483e6-e71a35f92bb817a20b310a260d07681b/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/65e5b1d9a9fb1b2e76fc7982cff01e1c-3745eaecc634917c618e8e70332cf42c/tiles/{z}/{x}/{y}"
   },
   {
     "index": 47,
     "date": "2022-12",
-    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/fb91258fcb7e8e96759845b1e785bbd5-ef2bb50cd6ccaf53f31bfa572dae43fc/tiles/{z}/{x}/{y}"
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/2120b698efa92d56b65582620387e87f-ae35ddc97ce0be78721f7f12516fb485/tiles/{z}/{x}/{y}"
   }
 ]
