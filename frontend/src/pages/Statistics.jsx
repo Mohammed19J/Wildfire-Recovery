@@ -18,19 +18,13 @@ const Statistics = () => {
         onClick={() => navigate("/")}
         startIcon={<ArrowBackIcon />}
         variant="contained"
-        color="success"
-        style={{
+        sx={{
           position: "fixed",
-          top: "20px",
-          left: "20px",
-          zIndex: 999,
-          fontSize: "1.1rem",
-          padding: "10px 22px",
-          borderRadius: "12px",
-          fontWeight: "bold",
+          top: 20,
+          left: 20,
           backgroundColor: "#2e7d32",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-          transition: "transform 0.2s",
+          "&:hover": { backgroundColor: "#388e3c", transform: "scale(1.05)" },
+          transition: "transform .2s",
         }}
         onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
         onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
