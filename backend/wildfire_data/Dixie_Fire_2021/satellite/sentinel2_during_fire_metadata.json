@@ -1,0 +1,18 @@
+{
+  "satellite": "Sentinel-2",
+  "period": "during_fire",
+  "date_range": "2021-07-13 to 2021-10-25",
+  "image_count": 107,
+  "resolution": "10m",
+  "bands": [
+    "B2",
+    "B3",
+    "B4",
+    "B8",
+    "B11",
+    "B12",
+    "NDVI",
+    "NBR",
+    "NDWI"
+  ]
+}

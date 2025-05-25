@@ -1,0 +1,67 @@
+{
+  "fire_metadata": {
+    "name": "Camp_Fire_2018",
+    "location": {
+      "bbox": [
+        -121.95,
+        39.25,
+        -121.0,
+        39.95
+      ],
+      "center": [
+        -121.48,
+        39.6
+      ],
+      "state": "CA"
+    },
+    "temporal_extent": {
+      "ignition_date": "2018-11-08",
+      "containment_date": "2018-11-25",
+      "pre_fire_monitoring_start": "2018-08-01",
+      "post_fire_monitoring_end": "2019-05-01"
+    },
+    "official_size_acres": 153336
+  },
+  "simulation_parameters": {
+    "grid_resolution_meters": 30,
+    "time_step_hours": 1,
+    "simulation_duration_hours": 408,
+    "ignition_points": [
+      [
+        -121.48,
+        39.6
+      ]
+    ],
+    "weather_update_frequency_hours": 3
+  },
+  "data_sources": {
+    "satellite_imagery": [
+      "Sentinel-2 (10m resolution)",
+      "Landsat 8/9 (30m resolution)",
+      "MODIS (250m-1km resolution)"
+    ],
+    "weather_data": [
+      "ERA5 Reanalysis (25km resolution)",
+      "Fire Weather Index calculations"
+    ],
+    "topography": [
+      "SRTM DEM (30m resolution)",
+      "Terrain derivatives (slope, aspect, TWI, TRI)"
+    ],
+    "fuel_models": [
+      "LANDFIRE Surface Fuel Models",
+      "LANDFIRE Canopy Characteristics",
+      "MODIS Vegetation Indices"
+    ],
+    "fire_detection": [
+      "NASA FIRMS Active Fire Data",
+      "MODIS Fire Products",
+      "Burned Area Mapping"
+    ]
+  },
+  "validation_metrics": {
+    "spatial_accuracy": "Burned area comparison",
+    "temporal_accuracy": "Fire progression timing",
+    "fire_behavior": "Rate of spread validation"
+  }
+}

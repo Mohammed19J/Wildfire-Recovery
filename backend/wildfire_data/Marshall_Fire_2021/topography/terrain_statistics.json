@@ -1,0 +1,14 @@
+{
+  "aspect_mean": 145.68117366699033,
+  "aspect_stdDev": 109.62103658542563,
+  "elevation_mean": 1732.9992635188278,
+  "elevation_stdDev": 159.35355155754473,
+  "hillshade_mean": 174.6531584457401,
+  "hillshade_stdDev": 22.957282095899895,
+  "slope_mean": 7.1705485218527985,
+  "slope_stdDev": 7.695817429136144,
+  "tri_mean": 6.589061592851556,
+  "tri_stdDev": 7.4866451169432375,
+  "twi_mean": -0.6983329191540452,
+  "twi_stdDev": 0.7692874379676121
+}

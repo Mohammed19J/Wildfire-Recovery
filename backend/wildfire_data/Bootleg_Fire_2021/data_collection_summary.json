@@ -1,0 +1,53 @@
+{
+  "fire_name": "Bootleg_Fire_2021",
+  "collection_date": "2025-05-24T18:47:34.534402",
+  "data_directory": "wildfire_data\\Bootleg_Fire_2021",
+  "collected_datasets": [
+    {
+      "category": "satellite",
+      "description": "High-resolution satellite imagery",
+      "file_count": 9,
+      "files": [
+        "landsat_during_fire_metadata.json",
+        "landsat_post_fire_metadata.json",
+        "landsat_pre_fire_metadata.json",
+        "modis_timeseries_during_fire.csv",
+        "modis_timeseries_post_fire.csv",
+        "modis_timeseries_pre_fire.csv",
+        "sentinel2_during_fire_metadata.json",
+        "sentinel2_post_fire_metadata.json",
+        "sentinel2_pre_fire_metadata.json"
+      ]
+    },
+    {
+      "category": "topography",
+      "description": "Digital elevation model and terrain derivatives",
+      "file_count": 1,
+      "files": [
+        "terrain_statistics.json"
+      ]
+    },
+    {
+      "category": "fire_detection",
+      "description": "Active fire detections and burned area mapping",
+      "file_count": 6,
+      "files": [
+        "burned_area.geojson",
+        "burned_area_stats.json",
+        "firms_MODIS_NRT.csv",
+        "firms_VIIRS_NOAA20_NRT.csv",
+        "firms_VIIRS_SNPP_NRT.csv",
+        "modis_fire_detections.geojson"
+      ]
+    },
+    {
+      "category": "fuel_models",
+      "description": "Fuel load and vegetation characteristics",
+      "file_count": 2,
+      "files": [
+        "forest_structure_data.json",
+        "vegetation_indices_timeseries.csv"
+      ]
+    }
+  ]
+}

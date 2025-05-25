@@ -21,4 +21,22 @@ router.get("/", (req, res) => {
   });
 });
 
+// Route to get eaton fire tiles
+router.get("/eaton-fire-tiles", (req, res) => {
+  const filePath = path.join(__dirname, "..", "data", "eaton-fire_tiles.json");
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading eaton-fire tile file:", err);
+      return res.status(500).json({ error: "Failed to read eaton-fire tile data" });
+    }
+    try {
+      const json = JSON.parse(data);
+      res.json(json);
+    } catch (parseErr) {
+      console.error("Error parsing eaton-fire tile file:", parseErr);
+      res.status(500).json({ error: "Invalid eaton-fire tile data format" });
+    }
+  });
+});
+
 module.exports = router;

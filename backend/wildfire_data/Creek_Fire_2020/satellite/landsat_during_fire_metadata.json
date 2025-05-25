@@ -1,0 +1,20 @@
+{
+  "satellite": "Landsat 8/9",
+  "period": "during_fire",
+  "date_range": "2020-09-04 to 2020-12-24",
+  "image_count": 17,
+  "resolution": "30m",
+  "bands": [
+    "SR_B1",
+    "SR_B2",
+    "SR_B3",
+    "SR_B4",
+    "SR_B5",
+    "SR_B6",
+    "SR_B7",
+    "ST_B10",
+    "NDVI",
+    "NBR",
+    "BAI"
+  ]
+}

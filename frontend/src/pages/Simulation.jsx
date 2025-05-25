@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, LayersControl } from "react-leaflet";
 import FloatingLeaves from "../components/FloatingLeaves";
-import { Button, Tooltip } from "@mui/material";
+import { Button, Tooltip, FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -93,6 +93,7 @@ function LegendRow({ data }) {
 
 export default function Simulation() {
   const [tiles, setTiles] = useState([]);
+  const [tileSet, setTileSet] = useState('monthly');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
@@ -109,11 +110,12 @@ export default function Simulation() {
   const currentTile = tiles[currentIndex] || {};
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/monthly-tiles")
+    const endpoint = tileSet === 'monthly' ? 'monthly-tiles' : 'eaton-fire-tiles';
+    fetch(`http://localhost:5000/api/${endpoint}`)
       .then((res) => res.json())
       .then(setTiles)
       .catch(console.error);
-  }, []);
+  }, [tileSet]);
 
   useEffect(() => {
     if (isPlaying && tiles.length) {
@@ -132,6 +134,12 @@ export default function Simulation() {
 
   const handleOverlayChange = (key) =>
     setSelectedOverlays((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  const handleTileSetChange = (event) => {
+    setTileSet(event.target.value);
+    setCurrentIndex(0);
+    setIsPlaying(false);
+  };
 
   return (
     <div
@@ -163,8 +171,50 @@ export default function Simulation() {
       <FloatingLeaves />
 
       <h1 style={{ fontSize: "2.5rem", fontWeight: "bold" }}>🌍 Simulation</h1>
+
+      <FormControl 
+        sx={{ 
+          m: 1, 
+          minWidth: 200, 
+          marginBottom: 3,
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: '#2e7d32',
+            },
+            '&:hover fieldset': {
+              borderColor: '#388e3c',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#2e7d32',
+            },
+          },
+          '& .MuiInputLabel-root': {
+            color: '#2e7d32',
+            '&.Mui-focused': {
+              color: '#2e7d32',
+            },
+          },
+          '& .MuiSelect-icon': {
+            color: '#2e7d32',
+          },
+        }}
+      >
+        <InputLabel id="tile-set-label">Tile Set</InputLabel>
+        <Select
+          labelId="tile-set-label"
+          value={tileSet}
+          label="Tile Set"
+          onChange={handleTileSetChange}
+        >
+          <MenuItem value="monthly">The Creek Fire</MenuItem>
+          <MenuItem value="eaton">Eaton Fire Tiles</MenuItem>
+        </Select>
+      </FormControl>
+
       <p style={{ fontSize: "1.2rem", marginBottom: 20 }}>
-        Observe vegetation recovery through Sentinel-2 imagery
+        {tileSet === 'monthly' 
+          ? 'Observe vegetation recovery through Sentinel-2 imagery' 
+          : 'View the progression of the Eaton Fire'}
       </p>
 
       {/* Month slider */}

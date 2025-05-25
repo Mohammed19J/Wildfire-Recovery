@@ -1,0 +1,67 @@
+{
+  "fire_metadata": {
+    "name": "Marshall_Fire_2021",
+    "location": {
+      "bbox": [
+        -105.3,
+        39.9,
+        -105.15,
+        40.05
+      ],
+      "center": [
+        -105.23,
+        39.98
+      ],
+      "state": "CO"
+    },
+    "temporal_extent": {
+      "ignition_date": "2021-12-30",
+      "containment_date": "2022-01-02",
+      "pre_fire_monitoring_start": "2021-09-01",
+      "post_fire_monitoring_end": "2022-07-01"
+    },
+    "official_size_acres": 6026
+  },
+  "simulation_parameters": {
+    "grid_resolution_meters": 30,
+    "time_step_hours": 1,
+    "simulation_duration_hours": 72,
+    "ignition_points": [
+      [
+        -105.23,
+        39.98
+      ]
+    ],
+    "weather_update_frequency_hours": 3
+  },
+  "data_sources": {
+    "satellite_imagery": [
+      "Sentinel-2 (10m resolution)",
+      "Landsat 8/9 (30m resolution)",
+      "MODIS (250m-1km resolution)"
+    ],
+    "weather_data": [
+      "ERA5 Reanalysis (25km resolution)",
+      "Fire Weather Index calculations"
+    ],
+    "topography": [
+      "SRTM DEM (30m resolution)",
+      "Terrain derivatives (slope, aspect, TWI, TRI)"
+    ],
+    "fuel_models": [
+      "LANDFIRE Surface Fuel Models",
+      "LANDFIRE Canopy Characteristics",
+      "MODIS Vegetation Indices"
+    ],
+    "fire_detection": [
+      "NASA FIRMS Active Fire Data",
+      "MODIS Fire Products",
+      "Burned Area Mapping"
+    ]
+  },
+  "validation_metrics": {
+    "spatial_accuracy": "Burned area comparison",
+    "temporal_accuracy": "Fire progression timing",
+    "fire_behavior": "Rate of spread validation"
+  }
+}

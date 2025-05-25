@@ -1,0 +1,18 @@
+[
+  {
+    "date": "2020-09",
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/e5eefae7e526058e729f6891e8e34675-c12ca4c57939dce34a625439ded47498/tiles/{z}/{x}/{y}"
+  },
+  {
+    "date": "2020-10",
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/2510d634b554b0f63734efcfa81ac305-febfdb99ad81900de04d6635cba22acd/tiles/{z}/{x}/{y}"
+  },
+  {
+    "date": "2020-11",
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/5348951ad7799f0422a782dcf74cf484-9385a47252eeda983287bdfa051a2caa/tiles/{z}/{x}/{y}"
+  },
+  {
+    "date": "2020-12",
+    "tileUrl": "https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/86a991502ae0ce66417a58cbfd287169-e0a2fe6ad4e7e085a84e09c8b1b6898e/tiles/{z}/{x}/{y}"
+  }
+]

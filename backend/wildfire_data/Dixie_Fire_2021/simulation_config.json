@@ -1,0 +1,67 @@
+{
+  "fire_metadata": {
+    "name": "Dixie_Fire_2021",
+    "location": {
+      "bbox": [
+        -122.1,
+        39.4,
+        -120.9,
+        40.1
+      ],
+      "center": [
+        -121.5,
+        39.75
+      ],
+      "state": "CA"
+    },
+    "temporal_extent": {
+      "ignition_date": "2021-07-13",
+      "containment_date": "2021-10-25",
+      "pre_fire_monitoring_start": "2021-04-01",
+      "post_fire_monitoring_end": "2022-04-01"
+    },
+    "official_size_acres": 963309
+  },
+  "simulation_parameters": {
+    "grid_resolution_meters": 30,
+    "time_step_hours": 1,
+    "simulation_duration_hours": 2496,
+    "ignition_points": [
+      [
+        -121.5,
+        39.75
+      ]
+    ],
+    "weather_update_frequency_hours": 3
+  },
+  "data_sources": {
+    "satellite_imagery": [
+      "Sentinel-2 (10m resolution)",
+      "Landsat 8/9 (30m resolution)",
+      "MODIS (250m-1km resolution)"
+    ],
+    "weather_data": [
+      "ERA5 Reanalysis (25km resolution)",
+      "Fire Weather Index calculations"
+    ],
+    "topography": [
+      "SRTM DEM (30m resolution)",
+      "Terrain derivatives (slope, aspect, TWI, TRI)"
+    ],
+    "fuel_models": [
+      "LANDFIRE Surface Fuel Models",
+      "LANDFIRE Canopy Characteristics",
+      "MODIS Vegetation Indices"
+    ],
+    "fire_detection": [
+      "NASA FIRMS Active Fire Data",
+      "MODIS Fire Products",
+      "Burned Area Mapping"
+    ]
+  },
+  "validation_metrics": {
+    "spatial_accuracy": "Burned area comparison",
+    "temporal_accuracy": "Fire progression timing",
+    "fire_behavior": "Rate of spread validation"
+  }
+}
