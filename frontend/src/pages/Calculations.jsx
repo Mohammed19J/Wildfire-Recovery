@@ -172,7 +172,13 @@ const Calculation = () => {
         console.warn(`Failed to fetch ${errorContext}: ${response.status}`);
         return null;
       }
-      return await response.json();
+      const text = await response.text();
+      try {
+        return JSON.parse(text);
+      } catch (parseErr) {
+        console.error(`Invalid JSON response for ${errorContext}:`, text.substring(0, 200));
+        return null;
+      }
     } catch (err) {
       console.error(`Error fetching ${errorContext}:`, err);
       return null;
