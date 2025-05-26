@@ -6,7 +6,7 @@
     "setup": "python scripts/generate_prediction.py",
     "get-tiles": "python scripts/get_monthly_tiles.py",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "python scripts/generate_prediction.py && python scripts/get_monthly_tiles.py && python scripts/get_eaton-fire_tiles.py && python scripts/get_carmel-fire_tiles.py && node server.js",
     "dev": "node server.js",
     "vercel-build": "echo 'Backend ready for Vercel'",
     "build": "echo 'Backend build complete'"
