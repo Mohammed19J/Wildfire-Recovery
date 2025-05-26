@@ -143,18 +143,14 @@ const Calculation = () => {
   // Basic state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  // Data state
+    // Data state
   const [availableFires, setAvailableFires] = useState([]);
   const [aggregatedNdvi, setAggregatedNdvi] = useState({ labels: [], values: [] });
-  const [aggregatedBurnedArea, setAggregatedBurnedArea] = useState(null);
     // Simulation state
   const [simState, setSimState] = useState(SIMULATION_STATES.IDLE);
   const [simParams, setSimParams] = useState({ windSpeed: 10, windDirection: 45, temperature: 25, humidity: 40 });
-  const [fuelGrid, setFuelGrid] = useState([]);
-  const [burnedCells, setBurnedCells] = useState(new Set());
+  const [fuelGrid, setFuelGrid] = useState([]);  const [burnedCells, setBurnedCells] = useState(new Set());
   const [activeFire, setActiveFire] = useState(new Set()); // Currently burning cells
-  const [currentFireFrame, setCurrentFireFrame] = useState(0);
   const [fireTimeline, setFireTimeline] = useState([]);
   const [simResults, setSimResults] = useState(null);
   const [simulationNdviData, setSimulationNdviData] = useState({ labels: [], values: [] });
@@ -440,10 +436,9 @@ const Calculation = () => {
             max: 1,
             grid: { color: 'rgba(0,0,0,0.1)' }
           }
-        }
-      }
+        }      }
     });
-  }, [simState, recoveryProgress, recoveryNdviData, aggregatedNdvi, simulationNdviData]);
+  }, [simState, recoveryNdviData, aggregatedNdvi, simulationNdviData]);
 
   // Effects for drawing and updating
   useEffect(() => {
@@ -460,12 +455,10 @@ const Calculation = () => {
       animationIntervalRef.current = null;
     }
     
-    setSimState(SIMULATION_STATES.IDLE);
-    setBurnedCells(new Set());
+    setSimState(SIMULATION_STATES.IDLE);    setBurnedCells(new Set());
     setActiveFire(new Set());
     setCellRecoveryData(new Map());
     setRecoveryProgress(0);
-    setCurrentFireFrame(0);
     setFireTimeline([]);
     setSimResults(null);
     setSimulationNdviData({ labels: [], values: [] });
@@ -600,15 +593,12 @@ const Calculation = () => {
           const cellKey = Array.isArray(cell) ? `${cell[0]},${cell[1]}` : cell;
           currentlyBurning.add(cellKey);
           allBurnedAccumulator.add(cellKey); // Add to local accumulator
-        });
-      }
-      
-      // Pass current recoveryProgress state (should be 0 during fire)
-      const currentNdvi = calculateCurrentGridNdvi(currentlyBurning, new Set(allBurnedAccumulator), recoveryProgress, SIMULATION_STATES.FIRE_SPREADING, null);
+        });      }      
+      // Pass 0 for recoveryProgress during fire spreading (explicit value, not state)
+      const currentNdvi = calculateCurrentGridNdvi(currentlyBurning, new Set(allBurnedAccumulator), 0, SIMULATION_STATES.FIRE_SPREADING, null);
       
       setActiveFire(currentlyBurning);
       setBurnedCells(new Set(allBurnedAccumulator)); // Update state with accumulated burned cells
-      setCurrentFireFrame(frameIndex);
       
       setSimulationNdviData(prev => ({
         labels: [...prev.labels, `Fire ${frameIndex + 1}`],
@@ -620,7 +610,7 @@ const Calculation = () => {
     };
     
     animate();
-  }, [fuelGrid, calculateCurrentGridNdvi, recoveryProgress]); // recoveryProgress is a dep of calculateCurrentGridNdvi
+  }, [fuelGrid, calculateCurrentGridNdvi]); // Remove recoveryProgress from dependencies
 
   // Fire simulation
   const runFireSimulation = useCallback(async () => {
@@ -656,11 +646,9 @@ const Calculation = () => {
                 startRecoveryRef.current();
             }
         }, 500);
-        return;
-      }
+        return;      }
       
       setFireTimeline(timeline);
-      setCurrentFireFrame(0);
       setSimResults(results);
       
       // Start fire animation
@@ -792,14 +780,8 @@ const Calculation = () => {
                                 </Typography>
                                 <Typography variant="caption" display="block" sx={{ color: 'text.secondary', fontSize: '0.75rem', lineHeight: 1.2, mb: 0.25 }}>
                                     • Marshall Fire
-                                </Typography>
-                            </Box>
+                                </Typography>                            </Box>
                         </Box>
-                        {aggregatedBurnedArea !== null && 
-                            <Typography variant="body2" sx={{ mb: 1 }}>
-                                <strong>Avg. Burned Area:</strong> {aggregatedBurnedArea.toFixed(2)} ha
-                            </Typography>
-                        }
                         {aggregatedNdvi.values.length > 0 && 
                             <Typography variant="body2" sx={{ mb: 1 }}>
                                 <strong>NDVI Data Points:</strong> {aggregatedNdvi.values.length}
