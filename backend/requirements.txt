@@ -1,0 +1,10 @@
+earthengine-api
+pandas
+geopandas
+requests
+shapely
+rasterio
+xarray
+netcdf4
+pyproj
+matplotlib

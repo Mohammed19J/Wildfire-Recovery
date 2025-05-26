@@ -21,13 +21,7 @@
     "chartjs-node-canvas": "^5.0.0",
     "cors": "^2.8.5",
     "ee": "^0.1.0",
-    "express": "^5.1.0",
-    "matplotlib": "^1.0.0",
-    "numpy": "^0.0.1",
-    "pandas": "^0.0.3",
-    "requests": "^0.3.0",
-    "shapely": "^0.2.3",
-    "xarray": "^0.0.3"
+    "express": "^5.1.0"
   },
   "description": ""
 }
