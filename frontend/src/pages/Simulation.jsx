@@ -110,9 +110,8 @@ export default function Simulation() {
   const currentTile = tiles[currentIndex] || {};
 
   useEffect(() => {
-    const endpoint = tileSet === 'monthly' ? 'monthly-tiles' : 'eaton-fire-tiles';
-    const apiBase = process.env.NODE_ENV === "production" ? (process.env.REACT_APP_API_URL + "/api") : "http://localhost:5000/api";
-    fetch(`${apiBase}/${endpoint}`)
+    const endpoint = tileSet === 'monthly' ? 'monthly-tiles' : 'eaton-fire-tiles';    const apiBase = process.env.NODE_ENV === "production" ? process.env.REACT_APP_API_URL : "http://localhost:5000";
+    fetch(`${apiBase}/api/${endpoint}`)
       .then((res) => res.json())
       .then(setTiles)
       .catch(console.error);

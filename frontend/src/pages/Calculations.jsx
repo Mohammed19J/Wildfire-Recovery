@@ -36,7 +36,7 @@ import {
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler, ChartJsTooltip, ChartJsLegend);
 
 const GRID_SIZE = 100;
-const API_BASE_URL = process.env.NODE_ENV === "production" ? (process.env.REACT_APP_API_URL + "/api") : "http://localhost:5000/api";
+const API_BASE_URL = process.env.NODE_ENV === "production" ? process.env.REACT_APP_API_URL : "http://localhost:5000";
 const FIRE_ANIMATION_SPEED = 120; // ms between fire frames
 const RECOVERY_ANIMATION_SPEED = 800; // ms between recovery frames (slower for gradual effect)
 const RECOVERY_TOTAL_STEPS = 20; // Total recovery animation steps
@@ -226,12 +226,12 @@ const Calculation = () => {
       setLoading(true);
       try {
         // Try to fetch real wildfire data
-        const fires = await fetchJson(`${API_BASE_URL}/wildfire/fires`, 'available fires');
+        const fires = await fetchJson(`${API_BASE_URL}/api/wildfire/fires`, 'available fires');
         if (fires && fires.length > 0) {
           setAvailableFires(fires);
           
           // Try to get aggregated NDVI data
-          const enhancedNdvi = await fetchJson(`${API_BASE_URL}/prediction/ndvi`, 'enhanced NDVI data');
+          const enhancedNdvi = await fetchJson(`${API_BASE_URL}/api/prediction/ndvi`, 'enhanced NDVI data');
           if (enhancedNdvi && enhancedNdvi.values) {
             setAggregatedNdvi({
               labels: enhancedNdvi.dates || enhancedNdvi.labels || [],
@@ -637,7 +637,7 @@ const Calculation = () => {
       const initialNdvi = calculateCurrentGridNdvi(null, new Set(), 0, SIMULATION_STATES.IDLE, new Map());
       setSimulationNdviData({ labels: ["Start"], values: [initialNdvi] });
 
-      const response = await fetch(`${API_BASE_URL}/simulation/run`, {
+      const response = await fetch(`${API_BASE_URL}/api/simulation/run`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

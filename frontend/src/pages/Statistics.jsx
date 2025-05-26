@@ -38,7 +38,7 @@ const Statistics = () => {
       {/* Graph */}
       <div style={{ textAlign: "center", marginTop: "30px" }}>
         <img
-          src={process.env.NODE_ENV === "production" ? "/api/ndvi-graph" : "http://localhost:5000/api/ndvi-graph"}
+          src={process.env.NODE_ENV === "production" ? `${process.env.REACT_APP_API_URL}/api/ndvi-graph` : "http://localhost:5000/api/ndvi-graph"}
           alt="NDVI Graph"
           style={{
             maxWidth: "95%",
