@@ -9,6 +9,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Import and use route modules
+const tilesRouter = require('./routes/tiles');
+const ndviRouter = require('./routes/ndvi');
+
+// Mount routes - tiles router handles both monthly-tiles and eaton-fire-tiles
+app.use('/api/monthly-tiles', tilesRouter);  // "/" route becomes "/api/monthly-tiles"
+app.use('/api', tilesRouter);  // "/eaton-fire-tiles" route becomes "/api/eaton-fire-tiles"
+app.use('/api', ndviRouter);
+
 // Error handler middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
