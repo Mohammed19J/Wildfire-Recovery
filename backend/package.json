@@ -1,7 +1,8 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",  "scripts": {
+  "main": "index.js",
+  "scripts": {
     "setup": "python scripts/generate_prediction.py",
     "get-tiles": "python scripts/get_monthly_tiles.py",
     "test": "echo \"Error: no test specified\" && exit 1",
