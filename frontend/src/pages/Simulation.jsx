@@ -111,7 +111,8 @@ export default function Simulation() {
 
   useEffect(() => {
     const endpoint = tileSet === 'monthly' ? 'monthly-tiles' : 'eaton-fire-tiles';
-    fetch(`http://localhost:5000/api/${endpoint}`)
+    const apiBase = process.env.NODE_ENV === "production" ? "/api" : "http://localhost:5000/api";
+    fetch(`${apiBase}/${endpoint}`)
       .then((res) => res.json())
       .then(setTiles)
       .catch(console.error);

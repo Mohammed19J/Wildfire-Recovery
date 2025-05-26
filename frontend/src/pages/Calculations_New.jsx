@@ -36,7 +36,7 @@ import {
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler, ChartJsTooltip, ChartJsLegend);
 
 const GRID_SIZE = 100;
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = process.env.NODE_ENV === "production" ? "/api" : "http://localhost:5000/api";
 const FIRE_ANIMATION_SPEED = 120; // ms between fire frames
 const RECOVERY_ANIMATION_SPEED = 800; // ms between recovery frames (slower for gradual effect)
 const RECOVERY_TOTAL_STEPS = 20; // Total recovery animation steps
