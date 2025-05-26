@@ -119,6 +119,19 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    // For Vercel deployment, use mock data since file access is problematic
+    if (process.env.VERCEL) {
+      console.log('[parameters.js] Running on Vercel, using mock data');
+      const mockParameters = {
+        fireSpreadRate: 0.35,
+        recoveryDuration: 24,
+        ndviInitial: 0.75,
+        ndviDuringFire: 0.2,
+        ndviFinal: 0.6
+      };
+      return res.status(200).json(mockParameters);
+    }
+
     const parameters = await loadNDVIData();
     res.status(200).json(parameters);
   } catch (err) {

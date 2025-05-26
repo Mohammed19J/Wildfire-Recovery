@@ -8,26 +8,52 @@
     },
     {
       "src": "api/**/*.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "backend/data/**",
-          "backend/wildfire_data/**"
-        ]
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
+      "src": "/api/debug",
+      "dest": "/api/debug"
+    },
+    {
+      "src": "/api/test",
+      "dest": "/api/test"
+    },
+    {
+      "src": "/api/wildfire/fires",
+      "dest": "/api/wildfire/fires"
+    },
+    {
+      "src": "/api/prediction/ndvi",
+      "dest": "/api/prediction/ndvi"
+    },
+    {
+      "src": "/api/simulation/run",
+      "dest": "/api/simulation/run"
+    },
+    {
+      "src": "/api/simulation/parameters",
+      "dest": "/api/simulation/parameters"
+    },
+    {
+      "src": "/api/monthly-tiles",
+      "dest": "/api/monthly-tiles"
+    },
+    {
+      "src": "/api/eaton-fire-tiles",
+      "dest": "/api/eaton-fire-tiles"
+    },
+    {
       "src": "/api/(.*)",
-      "dest": "api/$1.js"
+      "dest": "/api/$1"
     },
     {
       "handle": "filesystem"
     },
     {
-      "src": "(.*)",
-      "dest": "/index.html"
+      "src": "/(.*)",
+      "dest": "/frontend/build/index.html"
     }
   ]
 }

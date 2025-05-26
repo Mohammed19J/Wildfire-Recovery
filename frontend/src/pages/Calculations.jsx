@@ -163,20 +163,26 @@ const Calculation = () => {
   // UI state
   const [showLegend, setShowLegend] = useState(true);
   const [selectedScenario, setSelectedScenario] = useState('baseline');
-
   // Utility function for API calls
   const fetchJson = useCallback(async (url, errorContext = '') => {
     try {
+      console.log(`[fetchJson] Attempting to fetch: ${url}`);
       const response = await fetch(url);
+      console.log(`[fetchJson] Response status for ${errorContext}: ${response.status}`);
+      
       if (!response.ok) {
-        console.warn(`Failed to fetch ${errorContext}: ${response.status}`);
+        console.warn(`Failed to fetch ${errorContext}: ${response.status} ${response.statusText}`);
         return null;
       }
+      
       const text = await response.text();
+      console.log(`[fetchJson] Response text preview for ${errorContext}:`, text.substring(0, 200));
+      
       try {
         return JSON.parse(text);
       } catch (parseErr) {
         console.error(`Invalid JSON response for ${errorContext}:`, text.substring(0, 200));
+        console.error(`Parse error:`, parseErr);
         return null;
       }
     } catch (err) {

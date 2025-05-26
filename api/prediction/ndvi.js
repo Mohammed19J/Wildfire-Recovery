@@ -217,6 +217,33 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    // For Vercel deployment, use mock data since file access is problematic
+    if (process.env.VERCEL) {
+      console.log('[ndvi.js] Running on Vercel, using mock data');
+      const mockData = generateMockData();
+      return res.status(200).json({
+        values: mockData.values,
+        labels: mockData.labels,
+        periods: mockData.periods,
+        dates: mockData.dates,
+        fireStartIndex: mockData.fireStartIndex,
+        recoveryStartIndex: mockData.recoveryStartIndex,
+        metadata: {
+          totalPoints: mockData.values.length,
+          preFirePoints: mockData.periods.filter(p => p === 'pre_fire').length,
+          duringFirePoints: mockData.periods.filter(p => p === 'during_fire').length,
+          postFirePoints: mockData.periods.filter(p => p === 'post_fire').length,
+          timeSpan: mockData.dates.length > 0 ? {
+            start: mockData.dates[0],
+            end: mockData.dates[mockData.dates.length - 1]
+          } : null,
+          averageNDVI: mockData.averageNDVI,
+          dataSourceCount: mockData.dataSourceCount,
+          totalDataPoints: mockData.totalDataPoints
+        }
+      });
+    }
+
     const ndviData = await loadNDVIData();
     res.status(200).json({
       values: ndviData.values,

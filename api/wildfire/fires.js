@@ -17,6 +17,21 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  // For Vercel deployment, return mock data since file access is problematic
+  if (process.env.VERCEL) {
+    console.log('[fires.js] Running on Vercel, returning mock data');
+    const mockFires = [
+      'August_Complex_Fire',
+      'Bootleg_Fire', 
+      'Camp_Fire',
+      'Creek_Fire',
+      'Dixie_Fire',
+      'East_Troublesome_Fire',
+      'Marshall_Fire'
+    ];
+    return res.status(200).json(mockFires);
+  }
+
   const baseDir = process.cwd();
   console.log('[fires.js] process.cwd():', baseDir);
 

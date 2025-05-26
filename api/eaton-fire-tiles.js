@@ -18,6 +18,30 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    // For Vercel deployment, return mock data since file access is problematic
+    if (process.env.VERCEL) {
+      console.log('[eaton-fire-tiles.js] Running on Vercel, returning mock data');
+      const mockTiles = [
+        {
+          date: "2025-01-07",
+          tileUrl: "https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/mock-eaton-1/tiles/{z}/{x}/{y}",
+          overlays: {
+            fire: "https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/mock-eaton-fire-1/tiles/{z}/{x}/{y}",
+            aod: "https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/mock-eaton-aod-1/tiles/{z}/{x}/{y}"
+          }
+        },
+        {
+          date: "2025-01-08",
+          tileUrl: "https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/mock-eaton-2/tiles/{z}/{x}/{y}",
+          overlays: {
+            fire: "https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/mock-eaton-fire-2/tiles/{z}/{x}/{y}",
+            aod: "https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/mock-eaton-aod-2/tiles/{z}/{x}/{y}"
+          }
+        }
+      ];
+      return res.status(200).json(mockTiles);
+    }
+
     const filePath = path.join(process.cwd(), 'backend', 'data', 'eaton-fire_tiles.json');
     const data = await fs.readFile(filePath, 'utf8');
     const tiles = JSON.parse(data);
