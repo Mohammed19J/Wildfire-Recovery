@@ -8,7 +8,13 @@
     },
     {
       "src": "api/**/*.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "backend/data/**",
+          "backend/wildfire_data/**"
+        ]
+      }
     }
   ],
   "routes": [
