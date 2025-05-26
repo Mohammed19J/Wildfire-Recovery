@@ -4,16 +4,17 @@ const path = require('path');
 // Load NDVI data from all available fires and calculate averages
 async function loadNDVIData() {
   try {
-    const wildfireDataDir = path.join(process.cwd(), 'backend', 'wildfire_data');
-    const fires = await fs.readdir(wildfireDataDir, { withFileTypes: true });
-    const fireNames = fires.filter(d => d.isDirectory()).map(d => d.name);
+    const dataDir = path.join(process.cwd(), 'backend', 'data');
+    const files = await fs.readdir(dataDir);
+    const ndviFiles = files.filter(file => file.includes('ndvi_timeseries.csv'));
     
     let allFireData = [];
     
-    // Load data from all fires
-    for (const fireName of fireNames) {
+    // Load data from all NDVI files
+    for (const fileName of ndviFiles) {
       try {
-        const filePath = path.join(wildfireDataDir, fireName, 'fuel_models', 'vegetation_indices_timeseries.csv');
+        const fireName = fileName.replace('_ndvi_timeseries.csv', '');
+        const filePath = path.join(dataDir, fileName);
         const data = await fs.readFile(filePath, 'utf8');
         const rows = data.split('\n').filter(row => row.trim());
         
@@ -43,7 +44,7 @@ async function loadNDVIData() {
 
         allFireData = allFireData.concat(fireData);
       } catch (err) {
-        console.warn(`Could not load data for fire ${fireName}:`, err.message);
+        console.warn(`Could not load data for fire ${fileName}:`, err.message);
       }
     }
 
