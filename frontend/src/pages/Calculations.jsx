@@ -148,7 +148,7 @@ const Calculation = () => {
   const [aggregatedNdvi, setAggregatedNdvi] = useState({ labels: [], values: [] });
     // Simulation state
   const [simState, setSimState] = useState(SIMULATION_STATES.IDLE);
-  const [simParams, setSimParams] = useState({ windSpeed: 10, windDirection: 45, temperature: 25, humidity: 40 });
+  const [simParams, setSimParams] = useState({ elevation: 1000, slope: 10, temperature: 25, humidity: 40 });
   const [fuelGrid, setFuelGrid] = useState([]);  const [burnedCells, setBurnedCells] = useState(new Set());
   const [activeFire, setActiveFire] = useState(new Set()); // Currently burning cells
   const [fireTimeline, setFireTimeline] = useState([]);
@@ -682,9 +682,9 @@ const Calculation = () => {
   const handleScenarioSelect = (scenario) => {
     setSelectedScenario(scenario);
     if (scenario === 'baseline') {
-      setSimParams({ windSpeed: 10, windDirection: 45, temperature: 25, humidity: 40 });
+      setSimParams({ elevation: 1000, slope: 10, temperature: 25, humidity: 40 });
     } else if (scenario === 'high_risk') {
-      setSimParams({ windSpeed: 20, windDirection: 90, temperature: 35, humidity: 15 });
+      setSimParams({ elevation: 500, slope: 30, temperature: 35, humidity: 15 });
     }
     resetSimulation();
   };
@@ -879,32 +879,32 @@ const Calculation = () => {
                     <Grid container spacing={2} sx={{ mb: 3 }}>
                         <Grid xs={12} sm={6} md={3}>
                             <Paper sx={{ p: 2, bgcolor: 'background.default', borderRadius: 2 }}>
-                                <Typography variant="body2" gutterBottom><strong>Wind Speed (m/s)</strong></Typography>
-                                <Slider 
-                                    value={simParams.windSpeed} 
-                                    onChange={(e,v)=>handleParamChange('windSpeed',v)} 
-                                    min={0} max={30} step={1} 
+                                <Typography variant="body2" gutterBottom><strong>Elevation (m)</strong></Typography>
+                                <Slider
+                                    value={simParams.elevation}
+                                    onChange={(e,v)=>handleParamChange('elevation',v)}
+                                    min={0} max={4000} step={50}
                                     disabled={isSimulationRunning()}
                                     sx={{ color: 'primary.main' }}
                                 />
                                 <Typography variant="caption" color="text.secondary" align="center" display="block">
-                                    {simParams.windSpeed} m/s
+                                    {simParams.elevation} m
                                 </Typography>
                             </Paper>
                         </Grid>
-                        
+
                         <Grid xs={12} sm={6} md={3}>
                             <Paper sx={{ p: 2, bgcolor: 'background.default', borderRadius: 2 }}>
-                                <Typography variant="body2" gutterBottom><strong>Wind Direction (°)</strong></Typography>
-                                <Slider 
-                                    value={simParams.windDirection} 
-                                    onChange={(e,v)=>handleParamChange('windDirection',v)} 
-                                    min={0} max={360} step={15} 
+                                <Typography variant="body2" gutterBottom><strong>Slope (°)</strong></Typography>
+                                <Slider
+                                    value={simParams.slope}
+                                    onChange={(e,v)=>handleParamChange('slope',v)}
+                                    min={0} max={45} step={1}
                                     disabled={isSimulationRunning()}
                                     sx={{ color: 'primary.main' }}
                                 />
                                 <Typography variant="caption" color="text.secondary" align="center" display="block">
-                                    {simParams.windDirection}°
+                                    {simParams.slope}°
                                 </Typography>
                             </Paper>
                         </Grid>
@@ -961,7 +961,7 @@ const Calculation = () => {
                           </Button>
                         </span>
                       </MuiTooltip>
-                      <MuiTooltip title="High Risk: Hot, dry, windy conditions. Demonstrates rapid fire spread and slow recovery.">
+                      <MuiTooltip title="High Risk: Hot, dry, steep terrain at low elevation. Demonstrates rapid fire spread and slow recovery.">
                         <span>
                           <Button 
                             onClick={()=>handleScenarioSelect('high_risk')} 
@@ -1094,7 +1094,7 @@ const Calculation = () => {
             <Typography variant="h6" component="h3" gutterBottom sx={{display:'flex', alignItems:'center'}}><InfoOutlinedIcon sx={{mr:1, color:'info.main'}}/>Simulation & Recovery Details</Typography>
             <Typography variant="body2" paragraph>
                 This simulation demonstrates wildfire spread and ecosystem recovery with realistic timing. The recovery phase now shows gradual vegetation regrowth over {RECOVERY_TOTAL_STEPS} months, 
-                with the NDVI chart updating in real-time to reflect the recovery progress. Temperature, humidity, and wind parameters directly influence fire behavior and spread patterns.
+                with the NDVI chart updating in real-time to reflect the recovery progress. Temperature, humidity, elevation and slope parameters directly influence fire behavior and spread patterns.
             </Typography>
             <Box component="ul" sx={{pl:2}}>
                 <li><Typography variant="body2"><strong>Fire Simulation:</strong> Models spread based on environmental conditions with realistic timing ({FIRE_ANIMATION_SPEED}ms per frame).</Typography></li>
