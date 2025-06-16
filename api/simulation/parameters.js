@@ -70,8 +70,8 @@ async function loadNDVIData() {
     };
 
     return {
-      windSpeed: 10,
-      windDirection: 45,
+      elevation: 1000,
+      slope: 10,
       temperature: 30,
       humidity: 20,
       ndviInitial: avgNDVI.pre_fire || 0.7,
@@ -81,8 +81,8 @@ async function loadNDVIData() {
   } catch (err) {
     console.error('Error loading NDVI data from all fires:', err);
     return {
-      windSpeed: 10,
-      windDirection: 45,
+      elevation: 1000,
+      slope: 10,
       temperature: 30,
       humidity: 20,
       ndviInitial: 0.7,
@@ -93,8 +93,8 @@ async function loadNDVIData() {
 
 function generateMockData() {
   return {
-    windSpeed: 10,
-    windDirection: 45,
+    elevation: 1000,
+    slope: 10,
     temperature: 30,
     humidity: 20,
     ndviInitial: 0.7,

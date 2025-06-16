@@ -35,7 +35,8 @@ module.exports = async function handler(req, res) {
         burned.add(cell);
 
         // Spread probability factors
-        const windFactor = params.windSpeed * 0.02;
+        const slopeFactor = params.slope / 50;
+        const elevationEffect = -params.elevation / 5000;
         const tempFactor = params.temperature / 100;
         const humidityEffect = params.humidity / 100; // Directly proportional to humidity (0.0 to 1.0)
         const baseProb = 0.3;
@@ -52,14 +53,8 @@ module.exports = async function handler(req, res) {
             
             const neighborKey = `${nx},${ny}`;
             if (!burned.has(neighborKey) && !burning.has(neighborKey)) {
-              // Calculate spread probability with corrected humidity effect
-              let prob = baseProb + windFactor + tempFactor - humidityEffect;
-              
-              // Wind direction effect
-              const angle = Math.atan2(dy, dx);
-              const windAngle = params.windDirection * Math.PI / 180;
-              const windAlignment = Math.cos(angle - windAngle);
-              prob *= (1 + windAlignment * windFactor);
+              // Calculate spread probability using terrain and climate factors
+              let prob = baseProb + slopeFactor + elevationEffect + tempFactor - humidityEffect;
 
               if (Math.random() < Math.min(0.95, Math.max(0.05, prob))) {
                 newBurning.add(neighborKey);
@@ -76,7 +71,7 @@ module.exports = async function handler(req, res) {
     res.status(200).json({
       timeline,
       finalArea: burned.size * 0.01, // hectares
-      intensity: (params.windSpeed * 0.2 + params.temperature * 0.05) * (1 - params.humidity / 100),
+      intensity: (params.slope * 0.1 + params.temperature * 0.05) * (1 - params.humidity / 100) * (1 - params.elevation / 10000),
       burnedCells: burned.size
     });
   } catch (err) {
