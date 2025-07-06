@@ -12,7 +12,6 @@ export default function Home() {
       <h1 className="main-title">🌱 Wildfire Recovery</h1>
       <p className="subtitle">Visualizing the path from destruction to regrowth.</p>
       <div className="button-group">
-        <button onClick={() => navigate("/statistics")} className="styled-button">📊 Statistics</button>
         <button onClick={() => navigate("/simulation")} className="styled-button">🌍 Simulation</button>
         <button onClick={() => navigate("/calculations")} className="styled-button">🧮 Calculation</button>
       </div>
