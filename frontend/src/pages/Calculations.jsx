@@ -143,6 +143,8 @@ const Calculation = () => {
   const startRecoveryRef = useRef(null); // Ref for startRecovery
   const simCompChartRef = useRef(null);
   const simCompChartInstance = useRef(null); // Ref for comparison chart instance
+  const realNdviChartRef = useRef(null); // Ref for real NDVI chart
+  const realNdviChartInstance = useRef(null); // Ref for real NDVI chart instance
 
   // Basic state
   const [loading, setLoading] = useState(true);
@@ -249,17 +251,6 @@ const Calculation = () => {
             setAggregatedNdvi({
               labels: Array.from({ length: 24 }, (_, i) => `Month ${i + 1}`),
               values: fallbackNdvi
-            });
-          }
-
-          const creekNdvi = await fetchJson(
-            `${API_BASE_URL}/api/wildfire/Creek_Fire_2020/satellite/creek_fire_ndvi.csv`,
-            'Creek Fire NDVI'
-          );
-          if (creekNdvi) {
-            setRealFireNdvi({
-              labels: creekNdvi.map((r) => r.date),
-              values: creekNdvi.map((r) => parseFloat(r.ndvi || r.NDVI)),
             });
           }
         } else {
@@ -477,117 +468,141 @@ const Calculation = () => {
   useEffect(() => {
     updateChart();  }, [updateChart]);
 
-  // Load and normalize Creek Fire NDVI for comparison
+  // Load and normalize Creek Fire NDVI for comparison (from CSV only)
   useEffect(() => {
-    Promise.all([
-      fetch('/backend/wildfire_data/Creek_Fire_2020/satellite/modis_timeseries_pre_fire.csv').then(r => r.text()),
-      fetch('/backend/wildfire_data/Creek_Fire_2020/satellite/modis_timeseries_during_fire.csv').then(r => r.text()),
-      fetch('/backend/wildfire_data/Creek_Fire_2020/satellite/modis_timeseries_post_fire.csv').then(r => r.text()),
-    ]).then(([pre, during, post]) => {
-      const parseCsv = (csv) => {
+    console.log('Loading Creek Fire NDVI data...');
+    fetch('/wildfire_data/Creek_Fire_2020/satellite/creek_fire_ndvi.csv')
+      .then(r => {
+        console.log('CSV fetch response status:', r.status);
+        if (!r.ok) {
+          throw new Error(`HTTP ${r.status}: ${r.statusText}`);
+        }
+        return r.text();
+      })
+      .then(csv => {
+        console.log('CSV loaded, length:', csv.length);
         const lines = csv.trim().split('\n');
+        console.log('CSV lines count:', lines.length);
         const records = [];
         for (let i = 1; i < lines.length; i++) {
           const parts = lines[i].split(',');
-          if (parts.length >= 3) {
-            const date = parts[0];
-            const ndvi = parseFloat(parts[2]);
-            if (!isNaN(ndvi)) records.push({ date, ndvi });
-          }
+          const date = parts[0];
+          const ndvi = parseFloat(parts[1]);
+          if (!isNaN(ndvi) && date) records.push({ date, ndvi });
         }
-        return records;
-      };
-      const combined = [...parseCsv(pre), ...parseCsv(during), ...parseCsv(post)];
-      combined.sort((a, b) => new Date(a.date) - new Date(b.date));
-      let values = combined.map(r => r.ndvi);
-      const max = Math.max(...values);
-      if (max > 1.5) values = values.map(v => v / 10000);
-      setRealFireNdvi({ labels: combined.map(r => r.date), values });
-    }).catch(() => setRealFireNdvi({ labels: [], values: [] }));
+        console.log('Parsed records count:', records.length);
+        console.log('First few records:', records.slice(0, 3));
+        setRealFireNdvi({ labels: records.map(r => r.date), values: records.map(r => r.ndvi) });
+      })
+      .catch((error) => {
+        console.error('Failed to load Creek Fire NDVI data:', error);
+        setRealFireNdvi({ labels: [], values: [] });
+      });
   }, []);
 
   // Align and plot both NDVI series on the same chart
   useEffect(() => {
     if (!showComparison) return;
-    const timeout = setTimeout(() => {
+    console.log('Creating comparison charts, showComparison:', showComparison);
+    console.log('Real fire NDVI data:', realFireNdvi);
+    console.log('Simulation NDVI data:', simulationNdviData);
+    
+    // Simulated NDVI chart (left)
+    setTimeout(() => {
+      console.log('Creating simulated NDVI chart...');
       if (simCompChartInstance.current) simCompChartInstance.current.destroy();
-      if (!simCompChartRef.current) return;
-
-      const simVals = simulationNdviData.values;
-      const realVals = realFireNdvi.values;
-      if (simVals.length === 0 || realVals.length === 0) return;
-
-      const simMinIdx = simVals.indexOf(Math.min(...simVals));
-      const realMinIdx = realVals.indexOf(Math.min(...realVals));
-
-      const preSteps = Math.max(simMinIdx, realMinIdx);
-      const postSteps = Math.max(simVals.length - simMinIdx - 1, realVals.length - realMinIdx - 1);
-      const totalLen = preSteps + postSteps + 1;
-
-      const simAligned = Array(totalLen).fill(null);
-      const realAligned = Array(totalLen).fill(null);
-      const realDates = Array(totalLen).fill('');
-
-      const simStart = preSteps - simMinIdx;
-      for (let i = 0; i < simVals.length; i++) simAligned[simStart + i] = simVals[i];
-
-      const realStart = preSteps - realMinIdx;
-      for (let i = 0; i < realVals.length; i++) {
-        realAligned[realStart + i] = realVals[i];
-        realDates[realStart + i] = realFireNdvi.labels[i];
+      if (!simCompChartRef.current) {
+        console.log('simCompChartRef.current is null');
+        return;
       }
-
-      const labels = [];
-      for (let i = -preSteps; i <= postSteps; i++) labels.push(String(i));
-
-      simCompChartInstance.current = new Chart(simCompChartRef.current.getContext('2d'), {
+      const simVals = simulationNdviData.values;
+      const simLabels = simulationNdviData.labels;
+      if (simVals.length === 0) {
+        console.log('No simulation values to plot');
+        return;
+      }
+      console.log('Creating simulated chart with', simVals.length, 'data points');
+      const simCtx = simCompChartRef.current.getContext('2d');
+      simCompChartInstance.current = new Chart(simCtx, {
         type: 'line',
         data: {
-          labels,
+          labels: simLabels,
           datasets: [
             {
               label: 'Simulation NDVI',
-              data: simAligned,
+              data: simVals,
               borderColor: '#2e7d32',
               backgroundColor: 'rgba(46,125,50,0.1)',
               tension: 0.3,
-              fill: false,
-              pointRadius: 3,
-            },
-            {
-              label: 'Creek Fire MODIS NDVI',
-              data: realAligned,
-              borderColor: '#1976d2',
-              backgroundColor: 'rgba(25,118,210,0.1)',
-              tension: 0.3,
-              fill: false,
+              fill: true,
               pointRadius: 3,
             }
           ]
         },
         options: {
-          responsive: true,
+          responsive: false,
           maintainAspectRatio: false,
           scales: {
-            y: { min: 0, max: 1 },
-            x: { title: { display: true, text: 'Relative Time from Fire Nadir' } }
+            y: { min: 0, max: 1, title: { display: true, text: 'NDVI' } },
+            x: { title: { display: true, text: 'Time' } }
           },
           plugins: {
-            legend: { display: true, position: 'top' },
-            title: { display: true, text: 'NDVI Timeline (Aligned at Nadir)' },
-            tooltip: {
-              callbacks: {
-                afterLabel: ctx => {
-                  const date = realDates[ctx.dataIndex];
-                  return ctx.dataset.label === 'Creek Fire MODIS NDVI' && date ? `Date: ${date}` : '';
-                }
-              }
-            }
+            legend: { display: false },
+            title: { display: false }
           }
         }
       });
     }, 100);
-    return () => clearTimeout(timeout);
+    
+    // Real NDVI chart (right)
+    setTimeout(() => {
+      console.log('Creating real NDVI chart...');
+      if (!realNdviChartRef.current) {
+        console.log('realNdviChartRef.current is null');
+        return;
+      }
+      if (realNdviChartInstance.current) realNdviChartInstance.current.destroy();
+      const realCtx = realNdviChartRef.current.getContext('2d');
+      if (!realFireNdvi.values.length) {
+        console.log('No real fire values to plot, length:', realFireNdvi.values.length);
+        return;
+      }
+      console.log('Creating real chart with', realFireNdvi.values.length, 'data points');
+      realNdviChartInstance.current = new Chart(realCtx, {
+        type: 'line',
+        data: {
+          labels: realFireNdvi.labels,
+          datasets: [
+            {
+              label: 'Creek Fire NDVI',
+              data: realFireNdvi.values,
+              borderColor: '#1976d2',
+              backgroundColor: 'rgba(25,118,210,0.1)',
+              tension: 0.3,
+              fill: true,
+              pointRadius: 3,
+            }
+          ]
+        },
+        options: {
+          responsive: false,
+          maintainAspectRatio: false,
+          scales: {
+            y: { min: 0, max: 1, title: { display: true, text: 'NDVI' } },
+            x: { title: { display: true, text: 'Date' } }
+          },
+          plugins: {
+            legend: { display: false },
+            title: { display: false }
+          }
+        }
+      });
+    }, 200);
+    
+    return () => {
+      if (simCompChartInstance.current) simCompChartInstance.current.destroy();
+      if (realNdviChartInstance.current) realNdviChartInstance.current.destroy();
+    };
   }, [showComparison, simulationNdviData, realFireNdvi]);
 
   // Reset simulation
@@ -868,6 +883,12 @@ const Calculation = () => {
       }
       if (chartInstanceRef.current) {
         chartInstanceRef.current.destroy();
+      }
+      if (simCompChartInstance.current) {
+        simCompChartInstance.current.destroy();
+      }
+      if (realNdviChartInstance.current) {
+        realNdviChartInstance.current.destroy();
       }
     };
   }, []);
@@ -1239,15 +1260,22 @@ const Calculation = () => {
       </Container>
 
       <Modal open={showComparison} onClose={() => { setShowComparison(false); resetSimulation(); }}>
-        <Box sx={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%, -50%)', bgcolor:'background.paper', p:3, boxShadow:24, maxWidth:700 }}>
+        <Box sx={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%, -50%)', bgcolor:'background.paper', p:3, boxShadow:24, maxWidth:1300 }}>
           <IconButton onClick={() => { setShowComparison(false); resetSimulation(); }} sx={{ position:'absolute', top:8, right:8 }}>
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" sx={{ mb:1 }}>NDVI Comparison</Typography>
-          <Typography variant="body2" sx={{ mb:2 }}>Simulated NDVI and Creek Fire NDVI (aligned at lowest point).</Typography>
-          <Box sx={{ display:'flex', gap:2, flexWrap:'wrap', justifyContent:'center' }}>
-            <Box sx={{ width:600, height:300 }}>
-              <canvas ref={simCompChartRef} width={600} height={300} style={{ width:'100%', height:'100%' }} />
+          <Typography variant="body2" sx={{ mb:2 }}>Left: Simulated NDVI. Right: Creek Fire NDVI (from CSV).</Typography>
+          <Box sx={{ display:'flex', gap:4, flexWrap:'wrap', justifyContent:'center', alignItems:'flex-start' }}>
+            {/* Simulated NDVI Chart */}
+            <Box sx={{ width:500, height:300, display:'flex', flexDirection:'column', alignItems:'center' }}>
+              <Typography variant="subtitle1" sx={{ mb:1 }}>Simulated NDVI</Typography>
+              <canvas ref={simCompChartRef} id="simNdviChart" width={500} height={300} style={{ width:'100%', height:'100%' }} />
+            </Box>
+            {/* Real NDVI Chart (from CSV) */}
+            <Box sx={{ width:500, height:300, display:'flex', flexDirection:'column', alignItems:'center' }}>
+              <Typography variant="subtitle1" sx={{ mb:1 }}>Creek Fire NDVI (CSV)</Typography>
+              <canvas ref={realNdviChartRef} id="realNdviChart" width={500} height={300} style={{ width:'100%', height:'100%' }} />
             </Box>
           </Box>
         </Box>
