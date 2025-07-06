@@ -14,7 +14,6 @@ import {
   Tooltip as ChartJsTooltip,
   Legend as ChartJsLegend,
 } from "chart.js";
-Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler, ChartJsTooltip, ChartJsLegend);
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -26,6 +25,8 @@ import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import PublicIcon from "@mui/icons-material/Public";
 import "leaflet/dist/leaflet.css";
 import { useNavigate } from "react-router-dom";
+
+Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler, ChartJsTooltip, ChartJsLegend);
 
 // Legend definitions:
 // — Fire, AOD, LST as before
@@ -134,7 +135,7 @@ export default function Simulation() {
 
     const fireMap = {
       monthly: 'Creek_Fire_2020',
-      eaton: 'Bootleg_Fire_2021',
+      eaton: 'Carmel_Fire_2020',
     };
     const fire = fireMap[tileSet];
     fetch(`${apiBase}/api/wildfire/${fire}/fuel_models/vegetation_indices_timeseries.csv`)
@@ -274,7 +275,7 @@ export default function Simulation() {
           onChange={handleTileSetChange}
         >
           <MenuItem value="monthly">The Creek Fire</MenuItem>
-          <MenuItem value="eaton">Eaton Fire Tiles</MenuItem>
+          <MenuItem value="eaton">Carmel Fire Tiles</MenuItem>
         </Select>
       </FormControl>
 

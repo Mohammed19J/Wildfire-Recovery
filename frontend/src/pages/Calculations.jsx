@@ -142,9 +142,10 @@ const Calculation = () => {
   const chartInstanceRef = useRef(null);
   const startRecoveryRef = useRef(null); // Ref for startRecovery
   const simCompChartRef = useRef(null);
-  const realCompChartRef = useRef(null);
-  const simCompChartInstance = useRef(null);
-  const realCompChartInstance = useRef(null);
+  const simCompChartInstance = useRef(null); // Ref for comparison chart instance
+  // REMOVE unused refs for realCompChartRef and realCompChartInstance
+  // const realCompChartRef = useRef(null);
+  // const realCompChartInstance = useRef(null);
 
   // Basic state
   const [loading, setLoading] = useState(true);
@@ -477,42 +478,100 @@ const Calculation = () => {
   useEffect(() => {
     updateChart();  }, [updateChart]);
 
+  // Load and normalize Creek Fire NDVI for comparison
+  useEffect(() => {
+    // Load and concatenate MODIS NDVI for Creek Fire (pre, during, post)
+    Promise.all([
+      fetch('/backend/wildfire_data/Creek_Fire_2020/satellite/modis_timeseries_pre_fire.csv').then(r => r.text()),
+      fetch('/backend/wildfire_data/Creek_Fire_2020/satellite/modis_timeseries_during_fire.csv').then(r => r.text()),
+      fetch('/backend/wildfire_data/Creek_Fire_2020/satellite/modis_timeseries_post_fire.csv').then(r => r.text()),
+    ]).then(([pre, during, post]) => {
+      const parse = (csv) => {
+        const lines = csv.trim().split('\n');
+        const out = [];
+        for (let i = 1; i < lines.length; i++) {
+          const [date, , ndvi] = lines[i].split(',');
+          if (ndvi && ndvi !== '' && !isNaN(parseFloat(ndvi))) {
+            out.push({ date, ndvi: parseFloat(ndvi) });
+          }
+        }
+        return out;
+      };
+      const all = [...parse(pre), ...parse(during), ...parse(post)];
+      setRealFireNdvi({
+        labels: all.map(d => d.date),
+        values: all.map(d => d.ndvi)
+      });
+    }).catch(() => setRealFireNdvi({ labels: [], values: [] }));
+  }, []);
+
+  // Align and plot both NDVI series on the same chart
   useEffect(() => {
     if (!showComparison) return;
-    if (simCompChartInstance.current) simCompChartInstance.current.destroy();
-    if (realCompChartInstance.current) realCompChartInstance.current.destroy();
-    if (!simCompChartRef.current || !realCompChartRef.current) return;
-    const simCtx = simCompChartRef.current.getContext('2d');
-    simCompChartInstance.current = new Chart(simCtx, {
-      type: 'line',
-      data: {
-        labels: simulationNdviData.labels,
-        datasets: [{
-          label: 'Simulation NDVI',
-          data: simulationNdviData.values,
-          borderColor: '#2e7d32',
-          tension: 0.3,
-          fill: false,
-        }],
-      },
-      options: { responsive: true, maintainAspectRatio: false, scales:{y:{min:0,max:1}} },
-    });
-    const realCtx = realCompChartRef.current.getContext('2d');
-    realCompChartInstance.current = new Chart(realCtx, {
-      type: 'line',
-      data: {
-        labels: realFireNdvi.labels,
-        datasets: [{
-          label: 'Real Fire NDVI',
-          data: realFireNdvi.values,
-          borderColor: '#1976d2',
-          tension: 0.3,
-          fill: false,
-        }],
-      },
-      options: { responsive: true, maintainAspectRatio: false, scales:{y:{min:0,max:1}} },
-    });
-  }, [showComparison]);
+    const timeout = setTimeout(() => {
+      if (simCompChartInstance.current) simCompChartInstance.current.destroy();
+      if (!simCompChartRef.current) return;
+      // Normalize real NDVI to 0-1
+      let realVals = realFireNdvi.values;
+      if (realVals.length > 0) {
+        const min = Math.min(...realVals);
+        const max = Math.max(...realVals);
+        if (max - min > 0.2) {
+          // If values are in 0-1 range, skip; if in 0-0.5, skip; if in 0-5000, normalize
+          if (max > 2) realVals = realVals.map(v => v / 10000);
+        }
+      }
+      // Align the lowest point of both series
+      const simMin = Math.min(...simulationNdviData.values);
+      const realMin = Math.min(...realVals);
+      let simAligned = simulationNdviData.values;
+      let realAligned = realVals;
+      // Shift both so their minimum is at the same y-value
+      const offset = simMin - realMin;
+      realAligned = realAligned.map(v => v + offset);
+      // Use the longer of the two for x-axis
+      const maxLen = Math.max(simulationNdviData.labels.length, realFireNdvi.labels.length);
+      const labels = Array.from({length: maxLen}, (_, i) =>
+        simulationNdviData.labels[i] || realFireNdvi.labels[i] || `T${i+1}`
+      );
+      simCompChartInstance.current = new Chart(simCompChartRef.current.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Simulation NDVI',
+              data: simAligned,
+              borderColor: '#2e7d32',
+              backgroundColor: 'rgba(46,125,50,0.1)',
+              tension: 0.3,
+              fill: false,
+              pointRadius: 3,
+            },
+            {
+              label: 'Creek Fire MODIS NDVI (aligned)',
+              data: realAligned,
+              borderColor: '#1976d2',
+              backgroundColor: 'rgba(25,118,210,0.1)',
+              tension: 0.3,
+              fill: false,
+              pointRadius: 3,
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { y: { min: 0, max: 1 } },
+          plugins: {
+            legend: { display: true, position: 'top' },
+            title: { display: true, text: 'NDVI Timeline (Aligned)' }
+          }
+        }
+      });
+    }, 100);
+    return () => clearTimeout(timeout);
+  }, [showComparison, simulationNdviData, realFireNdvi]);
 
   // Reset simulation
   const resetSimulation = useCallback(() => {
@@ -580,7 +639,7 @@ const Calculation = () => {
     // Set initial recovery progress state before starting animation loop
     setRecoveryProgress(0); 
     animate();
-  }, [calculateCurrentGridNdvi, resetSimulation, burnedCells, cellRecoveryData]);
+  }, [calculateCurrentGridNdvi, burnedCells, cellRecoveryData]);
 
   // Update the ref whenever startRecovery is re-memoized
   useEffect(() => {
@@ -1168,10 +1227,11 @@ const Calculation = () => {
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" sx={{ mb:1 }}>NDVI Comparison</Typography>
-          <Typography variant="body2" sx={{ mb:2 }}>Simulated NDVI versus real wildfire data for reference.</Typography>
+          <Typography variant="body2" sx={{ mb:2 }}>Simulated NDVI and Creek Fire NDVI (aligned at lowest point).</Typography>
           <Box sx={{ display:'flex', gap:2, flexWrap:'wrap', justifyContent:'center' }}>
-            <Box sx={{ width:300, height:200 }}><canvas ref={simCompChartRef} style={{ width:'100%', height:'100%' }} /></Box>
-            <Box sx={{ width:300, height:200 }}><canvas ref={realCompChartRef} style={{ width:'100%', height:'100%' }} /></Box>
+            <Box sx={{ width:600, height:300 }}>
+              <canvas ref={simCompChartRef} width={600} height={300} style={{ width:'100%', height:'100%' }} />
+            </Box>
           </Box>
         </Box>
       </Modal>
