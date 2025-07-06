@@ -1,7 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { MapContainer, TileLayer, LayersControl } from "react-leaflet";
 import FloatingLeaves from "../components/FloatingLeaves";
 import { Button, Tooltip, FormControl, Select, MenuItem, InputLabel } from "@mui/material";
+import {
+  Chart,
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
+  Title,
+  CategoryScale,
+  Filler,
+  Tooltip as ChartJsTooltip,
+  Legend as ChartJsLegend,
+} from "chart.js";
+Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler, ChartJsTooltip, ChartJsLegend);
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -105,6 +118,9 @@ export default function Simulation() {
     lst: false,
     climate: false,
   });
+  const [ndviData, setNdviData] = useState(null);
+  const chartRef = useRef(null);
+  const chartInstanceRef = useRef(null);
 
   const navigate = useNavigate();
   const currentTile = tiles[currentIndex] || {};
@@ -115,6 +131,20 @@ export default function Simulation() {
       .then((res) => res.json())
       .then(setTiles)
       .catch(console.error);
+
+    const fireMap = {
+      monthly: 'Creek_Fire_2020',
+      eaton: 'Bootleg_Fire_2021',
+    };
+    const fire = fireMap[tileSet];
+    fetch(`${apiBase}/api/wildfire/${fire}/fuel_models/vegetation_indices_timeseries.csv`)
+      .then((res) => res.json())
+      .then((data) => {
+        const labels = data.map((d) => d.date);
+        const values = data.map((d) => parseFloat(d.NDVI || d.ndvi));
+        setNdviData({ labels, values });
+      })
+      .catch(() => setNdviData(null));
   }, [tileSet]);
 
   useEffect(() => {
@@ -131,6 +161,43 @@ export default function Simulation() {
     if (isPlaying) clearInterval(intervalId);
     setIsPlaying((p) => !p);
   };
+
+  useEffect(() => {
+    if (!chartRef.current || !ndviData) return;
+    if (chartInstanceRef.current) chartInstanceRef.current.destroy();
+    const ctx = chartRef.current.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(46,125,50,0.3)');
+    gradient.addColorStop(1, 'rgba(46,125,50,0)');
+    chartInstanceRef.current = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ndviData.labels,
+        datasets: [{
+          label: 'NDVI',
+          data: ndviData.values,
+          borderColor: '#2e7d32',
+          backgroundColor: gradient,
+          tension: 0.3,
+          fill: true,
+          pointRadius: 2,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { min: 0, max: 1 },
+        },
+      },
+    });
+  }, [ndviData]);
+
+  useEffect(() => {
+    return () => {
+      if (chartInstanceRef.current) chartInstanceRef.current.destroy();
+    };
+  }, []);
 
   const handleOverlayChange = (key) =>
     setSelectedOverlays((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -425,6 +492,14 @@ export default function Simulation() {
           </MapContainer>
         )}
       </div>
+
+      {ndviData ? (
+        <div style={{ maxWidth: 700, margin: '20px auto', height: 250 }}>
+          <canvas ref={chartRef} style={{ width: '100%', height: '100%' }} />
+        </div>
+      ) : (
+        <p style={{ marginTop: 20 }}>NDVI data unavailable for this fire.</p>
+      )}
 
       {/* Play/Pause */}
       <Button

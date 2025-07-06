@@ -3,8 +3,10 @@ import "./PageStyle.css";
 import FloatingLeaves from "../components/FloatingLeaves.jsx";
 import { useNavigate } from "react-router-dom";
 import {
-  Button, CircularProgress, Alert, Box, Typography, Paper, Grid, Slider, Card, CardContent, Divider, Container, Tooltip as MuiTooltip
+  Button, CircularProgress, Alert, Box, Typography, Paper, Grid, Slider,
+  Card, CardContent, Divider, Container, Tooltip as MuiTooltip, Modal, IconButton
 } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DownloadIcon from "@mui/icons-material/Download";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -139,6 +141,10 @@ const Calculation = () => {
   const animationIntervalRef = useRef(null);
   const chartInstanceRef = useRef(null);
   const startRecoveryRef = useRef(null); // Ref for startRecovery
+  const simCompChartRef = useRef(null);
+  const realCompChartRef = useRef(null);
+  const simCompChartInstance = useRef(null);
+  const realCompChartInstance = useRef(null);
 
   // Basic state
   const [loading, setLoading] = useState(true);
@@ -146,6 +152,7 @@ const Calculation = () => {
     // Data state
   const [availableFires, setAvailableFires] = useState([]);
   const [aggregatedNdvi, setAggregatedNdvi] = useState({ labels: [], values: [] });
+  const [realFireNdvi, setRealFireNdvi] = useState({ labels: [], values: [] });
     // Simulation state
   const [simState, setSimState] = useState(SIMULATION_STATES.IDLE);
   const [simParams, setSimParams] = useState({ elevation: 1000, slope: 10, temperature: 25, humidity: 40 });
@@ -159,9 +166,10 @@ const Calculation = () => {
   const [recoveryProgress, setRecoveryProgress] = useState(0); // 0 to 1
   const [cellRecoveryData, setCellRecoveryData] = useState(new Map()); // Cell-specific recovery info
   const [recoveryNdviData, setRecoveryNdviData] = useState({ labels: [], values: [] });
-  
+
   // UI state
   const [showLegend, setShowLegend] = useState(true);
+  const [showComparison, setShowComparison] = useState(false);
   const [selectedScenario, setSelectedScenario] = useState('baseline');
   // Utility function for API calls
   const fetchJson = useCallback(async (url, errorContext = '') => {
@@ -229,7 +237,7 @@ const Calculation = () => {
         const fires = await fetchJson(`${API_BASE_URL}/api/wildfire/fires`, 'available fires');
         if (fires && fires.length > 0) {
           setAvailableFires(fires);
-          
+
           // Try to get aggregated NDVI data
           const enhancedNdvi = await fetchJson(`${API_BASE_URL}/api/prediction/ndvi`, 'enhanced NDVI data');
           if (enhancedNdvi && enhancedNdvi.values) {
@@ -243,6 +251,15 @@ const Calculation = () => {
             setAggregatedNdvi({
               labels: Array.from({ length: 24 }, (_, i) => `Month ${i + 1}`),
               values: fallbackNdvi
+            });
+          }
+
+          const firstFire = fires[0];
+          const fireNdvi = await fetchJson(`${API_BASE_URL}/api/wildfire/${firstFire}/fuel_models/vegetation_indices_timeseries.csv`, 'comparison NDVI');
+          if (fireNdvi) {
+            setRealFireNdvi({
+              labels: fireNdvi.map((r) => r.date),
+              values: fireNdvi.map((r) => parseFloat(r.NDVI || r.ndvi)),
             });
           }
         } else {
@@ -460,6 +477,43 @@ const Calculation = () => {
   useEffect(() => {
     updateChart();  }, [updateChart]);
 
+  useEffect(() => {
+    if (!showComparison) return;
+    if (simCompChartInstance.current) simCompChartInstance.current.destroy();
+    if (realCompChartInstance.current) realCompChartInstance.current.destroy();
+    if (!simCompChartRef.current || !realCompChartRef.current) return;
+    const simCtx = simCompChartRef.current.getContext('2d');
+    simCompChartInstance.current = new Chart(simCtx, {
+      type: 'line',
+      data: {
+        labels: simulationNdviData.labels,
+        datasets: [{
+          label: 'Simulation NDVI',
+          data: simulationNdviData.values,
+          borderColor: '#2e7d32',
+          tension: 0.3,
+          fill: false,
+        }],
+      },
+      options: { responsive: true, maintainAspectRatio: false, scales:{y:{min:0,max:1}} },
+    });
+    const realCtx = realCompChartRef.current.getContext('2d');
+    realCompChartInstance.current = new Chart(realCtx, {
+      type: 'line',
+      data: {
+        labels: realFireNdvi.labels,
+        datasets: [{
+          label: 'Real Fire NDVI',
+          data: realFireNdvi.values,
+          borderColor: '#1976d2',
+          tension: 0.3,
+          fill: false,
+        }],
+      },
+      options: { responsive: true, maintainAspectRatio: false, scales:{y:{min:0,max:1}} },
+    });
+  }, [showComparison]);
+
   // Reset simulation
   const resetSimulation = useCallback(() => {
     if (animationIntervalRef.current) {
@@ -474,6 +528,7 @@ const Calculation = () => {
     setFireTimeline([]);
     setSimResults(null);
     setSimulationNdviData({ labels: [], values: [] });
+    setShowComparison(false);
   }, []);
 
   // Start recovery animation
@@ -506,9 +561,7 @@ const Calculation = () => {
             values: [...prev.values, finalRecoveryNdvi]
         }));
         
-        setTimeout(() => {
-          resetSimulation();
-        }, 2000);
+        setShowComparison(true);
         return;
       }
       
@@ -1104,10 +1157,24 @@ const Calculation = () => {
             </Box>
         </CardContent></Card>
 
-        <Typography variant="caption" display="block" color="text.secondary" align="center" sx={{ mt:3, mb:1 }}>
-          Wildfire & Ecosystem Recovery Simulation. Analyses use aggregated data and are illustrative. Actual ecological processes are highly complex.
-        </Typography>
+      <Typography variant="caption" display="block" color="text.secondary" align="center" sx={{ mt:3, mb:1 }}>
+        Wildfire & Ecosystem Recovery Simulation. Analyses use aggregated data and are illustrative. Actual ecological processes are highly complex.
+      </Typography>
       </Container>
+
+      <Modal open={showComparison} onClose={() => { setShowComparison(false); resetSimulation(); }}>
+        <Box sx={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%, -50%)', bgcolor:'background.paper', p:3, boxShadow:24, maxWidth:700 }}>
+          <IconButton onClick={() => { setShowComparison(false); resetSimulation(); }} sx={{ position:'absolute', top:8, right:8 }}>
+            <CloseIcon />
+          </IconButton>
+          <Typography variant="h6" sx={{ mb:1 }}>NDVI Comparison</Typography>
+          <Typography variant="body2" sx={{ mb:2 }}>Simulated NDVI versus real wildfire data for reference.</Typography>
+          <Box sx={{ display:'flex', gap:2, flexWrap:'wrap', justifyContent:'center' }}>
+            <Box sx={{ width:300, height:200 }}><canvas ref={simCompChartRef} style={{ width:'100%', height:'100%' }} /></Box>
+            <Box sx={{ width:300, height:200 }}><canvas ref={realCompChartRef} style={{ width:'100%', height:'100%' }} /></Box>
+          </Box>
+        </Box>
+      </Modal>
     </div>
   );
 };
