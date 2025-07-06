@@ -252,12 +252,14 @@ const Calculation = () => {
             });
           }
 
-          const firstFire = fires[0];
-          const fireNdvi = await fetchJson(`${API_BASE_URL}/api/wildfire/${firstFire}/fuel_models/vegetation_indices_timeseries.csv`, 'comparison NDVI');
-          if (fireNdvi) {
+          const creekNdvi = await fetchJson(
+            `${API_BASE_URL}/api/wildfire/Creek_Fire_2020/satellite/creek_fire_ndvi.csv`,
+            'Creek Fire NDVI'
+          );
+          if (creekNdvi) {
             setRealFireNdvi({
-              labels: fireNdvi.map((r) => r.date),
-              values: fireNdvi.map((r) => parseFloat(r.NDVI || r.ndvi)),
+              labels: creekNdvi.map((r) => r.date),
+              values: creekNdvi.map((r) => parseFloat(r.ndvi || r.NDVI)),
             });
           }
         } else {
