@@ -143,9 +143,6 @@ const Calculation = () => {
   const startRecoveryRef = useRef(null); // Ref for startRecovery
   const simCompChartRef = useRef(null);
   const simCompChartInstance = useRef(null); // Ref for comparison chart instance
-  // REMOVE unused refs for realCompChartRef and realCompChartInstance
-  // const realCompChartRef = useRef(null);
-  // const realCompChartInstance = useRef(null);
 
   // Basic state
   const [loading, setLoading] = useState(true);
@@ -480,28 +477,30 @@ const Calculation = () => {
 
   // Load and normalize Creek Fire NDVI for comparison
   useEffect(() => {
-    // Load and concatenate MODIS NDVI for Creek Fire (pre, during, post)
     Promise.all([
       fetch('/backend/wildfire_data/Creek_Fire_2020/satellite/modis_timeseries_pre_fire.csv').then(r => r.text()),
       fetch('/backend/wildfire_data/Creek_Fire_2020/satellite/modis_timeseries_during_fire.csv').then(r => r.text()),
       fetch('/backend/wildfire_data/Creek_Fire_2020/satellite/modis_timeseries_post_fire.csv').then(r => r.text()),
     ]).then(([pre, during, post]) => {
-      const parse = (csv) => {
+      const parseCsv = (csv) => {
         const lines = csv.trim().split('\n');
-        const out = [];
+        const records = [];
         for (let i = 1; i < lines.length; i++) {
-          const [date, , ndvi] = lines[i].split(',');
-          if (ndvi && ndvi !== '' && !isNaN(parseFloat(ndvi))) {
-            out.push({ date, ndvi: parseFloat(ndvi) });
+          const parts = lines[i].split(',');
+          if (parts.length >= 3) {
+            const date = parts[0];
+            const ndvi = parseFloat(parts[2]);
+            if (!isNaN(ndvi)) records.push({ date, ndvi });
           }
         }
-        return out;
+        return records;
       };
-      const all = [...parse(pre), ...parse(during), ...parse(post)];
-      setRealFireNdvi({
-        labels: all.map(d => d.date),
-        values: all.map(d => d.ndvi)
-      });
+      const combined = [...parseCsv(pre), ...parseCsv(during), ...parseCsv(post)];
+      combined.sort((a, b) => new Date(a.date) - new Date(b.date));
+      let values = combined.map(r => r.ndvi);
+      const max = Math.max(...values);
+      if (max > 1.5) values = values.map(v => v / 10000);
+      setRealFireNdvi({ labels: combined.map(r => r.date), values });
     }).catch(() => setRealFireNdvi({ labels: [], values: [] }));
   }, []);
 
@@ -511,29 +510,34 @@ const Calculation = () => {
     const timeout = setTimeout(() => {
       if (simCompChartInstance.current) simCompChartInstance.current.destroy();
       if (!simCompChartRef.current) return;
-      // Normalize real NDVI to 0-1
-      let realVals = realFireNdvi.values;
-      if (realVals.length > 0) {
-        const min = Math.min(...realVals);
-        const max = Math.max(...realVals);
-        if (max - min > 0.2) {
-          // If values are in 0-1 range, skip; if in 0-0.5, skip; if in 0-5000, normalize
-          if (max > 2) realVals = realVals.map(v => v / 10000);
-        }
+
+      const simVals = simulationNdviData.values;
+      const realVals = realFireNdvi.values;
+      if (simVals.length === 0 || realVals.length === 0) return;
+
+      const simMinIdx = simVals.indexOf(Math.min(...simVals));
+      const realMinIdx = realVals.indexOf(Math.min(...realVals));
+
+      const preSteps = Math.max(simMinIdx, realMinIdx);
+      const postSteps = Math.max(simVals.length - simMinIdx - 1, realVals.length - realMinIdx - 1);
+      const totalLen = preSteps + postSteps + 1;
+
+      const simAligned = Array(totalLen).fill(null);
+      const realAligned = Array(totalLen).fill(null);
+      const realDates = Array(totalLen).fill('');
+
+      const simStart = preSteps - simMinIdx;
+      for (let i = 0; i < simVals.length; i++) simAligned[simStart + i] = simVals[i];
+
+      const realStart = preSteps - realMinIdx;
+      for (let i = 0; i < realVals.length; i++) {
+        realAligned[realStart + i] = realVals[i];
+        realDates[realStart + i] = realFireNdvi.labels[i];
       }
-      // Align the lowest point of both series
-      const simMin = Math.min(...simulationNdviData.values);
-      const realMin = Math.min(...realVals);
-      let simAligned = simulationNdviData.values;
-      let realAligned = realVals;
-      // Shift both so their minimum is at the same y-value
-      const offset = simMin - realMin;
-      realAligned = realAligned.map(v => v + offset);
-      // Use the longer of the two for x-axis
-      const maxLen = Math.max(simulationNdviData.labels.length, realFireNdvi.labels.length);
-      const labels = Array.from({length: maxLen}, (_, i) =>
-        simulationNdviData.labels[i] || realFireNdvi.labels[i] || `T${i+1}`
-      );
+
+      const labels = [];
+      for (let i = -preSteps; i <= postSteps; i++) labels.push(String(i));
+
       simCompChartInstance.current = new Chart(simCompChartRef.current.getContext('2d'), {
         type: 'line',
         data: {
@@ -549,7 +553,7 @@ const Calculation = () => {
               pointRadius: 3,
             },
             {
-              label: 'Creek Fire MODIS NDVI (aligned)',
+              label: 'Creek Fire MODIS NDVI',
               data: realAligned,
               borderColor: '#1976d2',
               backgroundColor: 'rgba(25,118,210,0.1)',
@@ -562,10 +566,21 @@ const Calculation = () => {
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          scales: { y: { min: 0, max: 1 } },
+          scales: {
+            y: { min: 0, max: 1 },
+            x: { title: { display: true, text: 'Relative Time from Fire Nadir' } }
+          },
           plugins: {
             legend: { display: true, position: 'top' },
-            title: { display: true, text: 'NDVI Timeline (Aligned)' }
+            title: { display: true, text: 'NDVI Timeline (Aligned at Nadir)' },
+            tooltip: {
+              callbacks: {
+                afterLabel: ctx => {
+                  const date = realDates[ctx.dataIndex];
+                  return ctx.dataset.label === 'Creek Fire MODIS NDVI' && date ? `Date: ${date}` : '';
+                }
+              }
+            }
           }
         }
       });
