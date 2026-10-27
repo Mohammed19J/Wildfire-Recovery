@@ -775,7 +775,7 @@ const Calculation = () => {
       setBurnedCells(new Set());
       setActiveFire(new Set());
       setCellRecoveryData(new Map());
-      setRecoveryProgress(0); // Ensure recoveryProgress is reset
+      setRecoveryProgress(0);
       setSimResults(null);
       
       const initialNdvi = calculateCurrentGridNdvi(null, new Set(), 0, SIMULATION_STATES.IDLE, new Map());
